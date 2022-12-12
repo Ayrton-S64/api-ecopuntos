@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 12, 2022 at 03:13 AM
+-- Generation Time: Dec 12, 2022 at 03:16 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -72,6 +72,29 @@ CREATE TABLE IF NOT EXISTS `estudiante` (
 INSERT INTO `estudiante` (`idEstudiante`, `nombre`, `codmatricula`, `puntos`, `activo`, `eliminado`) VALUES
 (1, 'Ayrton Soto Alarcon', '1013300219', 0, 1, 0),
 (2, 'Alessandro Venegas Villareal', '1513300219', 0, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usuario`
+--
+
+DROP TABLE IF EXISTS `usuario`;
+CREATE TABLE IF NOT EXISTS `usuario` (
+  `idUsuario` int(11) NOT NULL AUTO_INCREMENT,
+  `login` varchar(75) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `activo` int(11) NOT NULL DEFAULT '1',
+  `eliminado` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`idUsuario`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `usuario`
+--
+
+INSERT INTO `usuario` (`idUsuario`, `login`, `password`, `activo`, `eliminado`) VALUES
+(1, 'admin', '123456', 1, 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
