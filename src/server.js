@@ -1,7 +1,9 @@
 const express = require('express');
-const app = express();
+const cors = require('cors');
 const morgan=require('morgan');
 const dotenv = require('dotenv')
+
+const app = express();
 
 const mqtt = require('mqtt');
  
@@ -26,6 +28,10 @@ app.get('/', (req, res) => {
     );
 })
 
+app.get('/test', (req, res)=>{
+    console.log(req)
+})
+
 const rutas = require('./routes/routes')
 app.use('/api', rutas);
  
@@ -43,6 +49,8 @@ const options = {
     keepalive: 60,
     clientId: clientId,
     protocolId: 'MQTT',
+    username: 'cliente1',
+    password: '1234',
     protocolVersion: 4,
     clean: true,
     reconnectPeriod: 1000,
@@ -64,7 +72,7 @@ client.on('error', (err) => {
 });
 
 client.on('reconnect' , () => {
-    console.log('Reconectando...');
+    // console.log('Reconectando...');
 });
 
 

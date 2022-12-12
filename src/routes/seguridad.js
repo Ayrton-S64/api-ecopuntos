@@ -1,5 +1,5 @@
 var router = require('express').Router()
-const morgan=require('morgan');
+const morgan = require('morgan');
 const jwt = require('jsonwebtoken')
 
 router.use(morgan('dev'));
