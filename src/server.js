@@ -17,6 +17,15 @@ app.set('json spaces', 2)
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
+//app.use((req,res,next)=>{
+//    res.header('Access-Control-Allow-Origin','*');
+//    next();
+//});
+app.use(cors(
+    {
+        origin:'*'
+    }
+));
  
 //Nuestro primer WS Get
 app.get('/', (req, res) => {    
@@ -29,7 +38,13 @@ app.get('/', (req, res) => {
 })
 
 app.get('/test', (req, res)=>{
-    console.log(req)
+    
+    console.log(req.headers)
+    res.json(
+        {
+            "Title": "test"
+        }
+    );
 })
 
 const rutas = require('./routes/routes')
