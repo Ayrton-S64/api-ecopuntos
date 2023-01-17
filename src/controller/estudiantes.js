@@ -7,7 +7,7 @@ exports.getAllEstudiantes = (req, res, next)=>{
         if(err) return res.status(500).json({error: err.name, message: err.message, sqlMessage: err.sqlMessage})
         res.status(200).json({
             status: "success",
-            length: data.length,
+            length: (data && data.length)?data.length:0,
             data: data
         })
     })
@@ -25,7 +25,7 @@ exports.getEstudiante = (req, res, next) => {
         if(err) return res.status(500).json({error: err.name, message: err.message, sqlMessage: err.sqlMessage})
         res.status(200).json({
             status: "success",
-            length: data?.length,
+            length: (data && data.length)?data.length:0,
             data: data,
         });
         }

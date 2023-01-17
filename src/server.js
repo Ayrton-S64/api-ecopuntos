@@ -80,7 +80,6 @@ const options = {
     },
 }
 
-console.log('mqtt client Listo');
 const client = mqtt.connect(process.env.MQTT_URI, options)
 
 client.on('error', (err) => {
