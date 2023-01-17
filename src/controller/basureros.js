@@ -1,8 +1,8 @@
 const conn = require('../service/db');
 
-exports.getAllBeneficios = (req, res, next)=>{
+exports.getAllBasureros = (req, res, next)=>{
     console.log(req.params, req.query)
-    conn.query("SELECT * FROM beneficios WHERE eliminado=0;", (err, data, fields)=>{
+    conn.query("SELECT * FROM basurero WHERE eliminado=0;", (err, data, fields)=>{
         if(err) return res.status(500).json({error: err.name, message: err.message, sqlMessage: err.sqlMessage})
         res.status(200).json({
             status: "success",
@@ -12,12 +12,12 @@ exports.getAllBeneficios = (req, res, next)=>{
     })
 }
 
-exports.getBeneficio = (req, res, next) => {
+exports.getBasurero = (req, res, next) => {
     if (!req.params.id) {
         return res.status(404).json({error: 'HTTP Error', message: 'No se envio id'})
     }
     conn.query(
-        "SELECT * FROM beneficios WHERE idBeneficio = ?",
+        "SELECT * FROM basurero WHERE idBasurero = ?",
         [req.params.id],
         function (err, data, fields) {
         if(err) return res.status(500).json({error: err.name, message: err.message, sqlMessage: err.sqlMessage})
@@ -30,12 +30,12 @@ exports.getBeneficio = (req, res, next) => {
     );
 };
 
-exports.AddBeneficio = (req, res, next)=>{
+exports.AddBasurero = (req, res, next)=>{
     if (!req.body) return res.status(404).json({error: 'HTTP Error', message: 'No form data found'})
     
-    const values = [req.body.descripcion, req.body.puntos];
+    const values = [req.body.codigo, req.body.activo, req.body.eliminado];
     conn.query(
-      "INSERT INTO beneficios (descripcion, puntos) VALUES(?)",
+      "INSERT INTO basurero (codigo, activo, eliminado) VALUES(?)",
       [values],
       function (err, data, fields) {
         if(err) return res.status(500).json({error: err.name, message: err.message, sqlMessage: err.sqlMessage})

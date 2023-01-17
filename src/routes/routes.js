@@ -6,7 +6,7 @@ var beneficios = require('./beneficios');
 
 router.use('/seguridad', seguridad)
 router.use('/estudiantes', estudiantes)
-router.use('/beneficios', beneficios)
+router.use('/recompensas', beneficios)
 
 router.get('/',(req,res)=>{
     res.status(200).json({mensaje: 'Bienvenido a la api'})
