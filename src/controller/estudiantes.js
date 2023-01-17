@@ -2,7 +2,7 @@ const conn = require('../service/db');
 
 exports.getAllEstudiantes = (req, res, next)=>{
     console.log('consultando estudiantes')
-    console.log(req.params, req.query)
+    console.log(req.params)
     conn.query("SELECT * FROM estudiante", (err, data, fields)=>{
         if(err) return res.status(500).json({error: err.name, message: err.message, sqlMessage: err.sqlMessage})
         res.status(200).json({

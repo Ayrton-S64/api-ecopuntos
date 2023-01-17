@@ -11,6 +11,9 @@ const mqtt = require('mqtt');
  
 dotenv.config()
 
+global.mqttURI = process.env.MQTT_URI;
+global.dbURI = process.env.BD_URI;
+
 //Configuraciones
 app.set('port', process.env.PORT || 8080);
 app.set('json spaces', 2)
@@ -101,8 +104,10 @@ client.on('connect', () => {
 
 //Publicando
 
+const Estudiante = require('./controller/estudiantes');
+
 // Recibiendo datos
-client.on('message' , (topic, message, packet) => {
+client.on('message' , async (topic, message, packet) => {
     if(topic==='inicioSesion'){
         // console.log('-------inicio sesion')
         // console.log('topic: ', topic)
@@ -113,7 +118,9 @@ client.on('message' , (topic, message, packet) => {
         const data = JSON.parse(mensaje)
         if(data.codigo){
             console.log('fn inicioSesion: ', message.toString())
-            client.publish('inicioSesion', JSON.stringify({data: 'loginValido'}))
+
+            let response = await Estudiante.validarEstudiante(data.codigo);
+            client.publish('inicioSesion', JSON.stringify(response))
         }
     }
     if(topic === 'trash_update'){        
@@ -126,14 +133,8 @@ client.on('message' , (topic, message, packet) => {
         const data = JSON.parse(mensaje)
         if(data.codigo && data.cantidad){
             // console.log(`usuario: ${data.codigo}, registro ${data.cantidad}u de basura`)
-            conn.query('UPDATE estudiante SET puntos = puntos + ? WHERE codmatricula=?',
-            [data.cantidad, data.codigo],(err,res, next)=>{
-                if(err)
-                    console.error(err);
-                else{
-                    console.log(res);
-                }
-            })
+            let response = await Estudiante.registrarBasura(data.codigo, data.cantidad);
+            console.log('registroBasura: ',response)
         }
     }
 });
