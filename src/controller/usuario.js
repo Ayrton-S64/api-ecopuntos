@@ -13,7 +13,8 @@ exports.auntenticate = (req, res, next) => {
       function (err, data, fields) {
         if(err) return res.status(500).json({error: err.name, message: err.message, sqlMessage: err.sqlMessage})
         console.log(data);
-        const token = jwt.sign({idUser: data[0][0].isUsuario,login: req.body.login}, process.env.TOKEN_SECRET);
+        const obj = {IdUsuario: data[0][0].isUsuario,Nombres:'Admin',ApellidoPaterno:'Admin',ApellidoMaterno:'Admin','TipoUsuario':'Admin','Login': req.body.login, 'Email':'admin@gmail.com', 'Sociedad':'','IdSociedad':0,'IdEmpresa':0};
+        const token = jwt.sign({userData:JSON.stringify(obj)}, process.env.TOKEN_SECRET);
         res.status(201).json({
           data: data,
           token:token
