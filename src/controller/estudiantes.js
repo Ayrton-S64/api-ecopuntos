@@ -32,6 +32,41 @@ exports.getEstudiante = (req, res, next) => {
     );
 };
 
+exports.validarEstudiante = (codigo) => {
+
+    let response = new Promise((res,rej)=>{
+        try{
+            conn.query(
+                "SELECT * FROM estudiante WHERE codmatricula = ?",
+                [codigo],
+                (err, data, fields)=>{
+                    console.log(data[0])
+                    if(err) return err;
+                    if(data.length>0){
+                        res({
+                            Success: 1,
+                            Msg: 'Usuario encontrado',
+                            data: data
+                        })
+                    }else{
+                        res({
+                            Success: 0,
+                            Msg: 'Usuario no encontrado',
+                            data: data
+                        })
+                    }
+                }
+            );
+        }
+        catch(ex){
+            console.error(ex);
+            rej(ex);
+        }
+    })
+    
+   return response
+};
+
 exports.AddEstudiante = (req, res, next)=>{
     if (!req.body) return res.status(404).json({error: 'HTTP Error', message: 'No form data found'})
     
@@ -48,3 +83,36 @@ exports.AddEstudiante = (req, res, next)=>{
       }
     );
 }
+
+exports.registrarBasura = (codigo, cantBasura) => {
+
+    let response = new Promise((res,rej)=>{
+        try{
+
+            conn.query(
+                'UPDATE estudiante SET puntos = puntos + ? WHERE codmatricula=?',
+                [cantBasura, codigo],
+                (err,data, next)=>{
+                if(err)
+                    res({
+                        Success: 0,
+                        Msg: 'Surgio un error',
+                        Data: data,
+                    })
+                else{
+                    res({
+                        Success: 1,
+                        Msg: 'Actualizacion con exito',
+                        Data: data,
+                    })
+                }
+            })
+        }
+        catch(ex){
+            console.error(ex);
+            rej(ex);
+        }
+    })
+    
+   return response
+};
